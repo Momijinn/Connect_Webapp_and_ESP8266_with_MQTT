@@ -9,10 +9,13 @@ const char* ssid = "your_ssid";
 const char* ssid_pwd = "your_password";
 
 // mqtt
-const char* server = "broker.com";
+const char* server = "io.adafruit.com";
+int port = 1883;
+const char* user_name = "userName";
+const char* key = "password";
 const char* client_id = "client_id";
-const char* send_topic = "my-topic/esp";
-const char* recv_topic = "my-topic/web";
+const char* send_topic = "userName/feeds/esp";
+const char* recv_topic = "userName/feeds/web";
 
 WiFiClient espClient;
 PubSubClient client;
@@ -60,10 +63,10 @@ void connectMqtt(){
   Serial.println(server);
 
   client.setClient(espClient);
-  client.setServer(server, 1883);
+  client.setServer(server, port);
   client.setCallback(recvMessageCallback);
 
-  if( client.connect(client_id) ){
+  if( client.connect(client_id, user_name, key) ){
     Serial.println("connected to MQTT");
     client.subscribe(recv_topic);
   } else{
