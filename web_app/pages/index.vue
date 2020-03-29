@@ -1,36 +1,74 @@
 <template>
   <div class="container">
     <div>
-      <div>
-        <span>Host: </span>
-        <input v-model="host" type="text" placeholder="broker.com" :disabled="!boolDisable">
-      </div>
+      <table>
+        <tr>
+          <th>Host</th>
+          <td>
+            <input v-model="host" type="text" placeholder="broker.com" :disabled="!boolDisable">
+          </td>
+          <td>(require)</td>
+        </tr>
+        <tr>
+          <th>Port</th>
+          <td>
+            <input v-model="port" type="number" placeholder="443" :disabled="!boolDisable">
+          </td>
+          <td>(require)</td>
+        </tr>
+        <tr>
+          <td>Path</td>
+          <td>
+            <input v-model="path" type="text" placeholder="/mqtt" :disabled="!boolDisable">
+          </td>
+          <td>(option)</td>
+        </tr>
+        <tr>
+          <td>UserName</td>
+          <td>
+            <input v-model="username" type="text" placeholder="username" :disabled="!boolDisable">
+          </td>
+          <td>(option)</td>
+        </tr>
+        <tr>
+          <td>Password</td>
+          <td>
+            <input v-model="password" type="password" placeholder="password" :disabled="!boolDisable">
+          </td>
+          <td>(option)</td>
+        </tr>
+        <tr>
+          <th>Recv Topic</th>
+          <td>
+            <input v-model="recv_topic" type="text" placeholder="my-topic/recv" :disabled="!boolDisable">
+          </td>
+          <td>(require)</td>
+        </tr>
+        <tr>
+          <th>Send Topic</th>
+          <td>
+            <input v-model="send_topic" type="text" placeholder="my-topic/send" :disabled="!boolDisable">
+          </td>
+          <td>(require)</td>
+        </tr>
+      </table>
 
       <div>
-        <span>Port: </span>
-        <input v-model="port" type="number" placeholder="8000" :disabled="!boolDisable">
-      </div>
-
-      <div>
-        <span>Recv Topic: </span>
-        <input v-model="recv_topic" type="text" placeholder="my-topic/recv" :disabled="!boolDisable">
-      </div>
-
-      <div>
-        <span>Send Topic: </span>
-        <input v-model="send_topic" type="text" placeholder="my-topic/send" :disabled="!boolDisable">
-      </div>
-
-      <div>
-        <button @click="connect" :disabled="!boolDisable">connect</button>
-        <button @click="disconnect" :disabled="boolDisable">disconnect</button>
+        <button :disabled="!boolDisable" @click="connect">
+          connect
+        </button>
+        <button :disabled="boolDisable" @click="disconnect">
+          disconnect
+        </button>
       </div>
 
       <br>
 
       <div v-if="!boolDisable">
-         <input v-model="sendMessageValue" type="text" placeholder="value">
-        <button @click="sendMessage">submit</button>
+        <input v-model="sendMessageValue" type="text" placeholder="value">
+        <button @click="sendMessage">
+          submit
+        </button>
       </div>
 
       <div class="recvMsg">
@@ -49,6 +87,9 @@ export default {
     return {
       host: '',
       port: null,
+      path: '',
+      username: '',
+      password: '',
       recv_topic: '',
       send_topic: '',
       recvMessages: [],
@@ -69,7 +110,9 @@ export default {
       const options = {
         host: this.host,
         port: this.port,
-        path: '/mqtt'
+        username: this.username,
+        password: this.password,
+        path: this.path
       }
 
       const client = mqtt.connect(options)
@@ -87,7 +130,7 @@ export default {
       })
 
       client.on('message', (topic, message) => {
-        this.recvMessages.push(message)
+        this.recvMessages.push(topic + ',' + message)
       })
     },
 
