@@ -108,14 +108,13 @@ export default {
 
       const mqtt = require('mqtt')
       const options = {
-        host: this.host,
         port: this.port,
         username: this.username,
         password: this.password,
         path: this.path
       }
 
-      const client = mqtt.connect(options)
+      const client = mqtt.connect("wss://" + this.host, options)
       this.client = client
 
       client.on('connect', () => {
