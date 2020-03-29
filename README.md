@@ -10,9 +10,11 @@ This repository runs a servo motor connected to ESP8266 from Web app with MQTT.
 ## Demo
 
 Demo video is use a broker that "io.adafruit.com".  
-Maybe, Web App can connect to other broker. (Set a host and path and etc.)
+Maybe, Web App can connect to other broker. (Set a host and path and etc.)  
+<span style="color: red; ">Attention: Broker should be be support wss schema.</span>
 
-add video
+Youtube  
+[![](https://img.youtube.com/vi/4tJ3RWdavFs/0.jpg)](https://www.youtube.com/watch?v=4tJ3RWdavFs)
 
 ## Directory
 
@@ -25,7 +27,7 @@ add video
 ## Usage
 
 1. Flash the mqtt_arduino_servo to ESP8266.
-2. Open URL ( )
+2. Open URL ( https://momijinn.github.io/Connect_Webapp_and_ESP8266_with_MQTT/ )
 3. Input Host(Broker) and Port(Broker Port) and etc.
 4. Click "connect" button.
 5. Submit a value.
